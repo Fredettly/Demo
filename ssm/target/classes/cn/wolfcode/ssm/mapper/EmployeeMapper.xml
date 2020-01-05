@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wolfcode.ssm.mapper.EmployeeMapper">
+
+    <!--自定义映射-->
+    <resultMap id="BaseResultMap" type="Employee">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="age" column="age"/>
+        <result property="admin" column="admin"/>
+        <result property="deptId" column="dept_id"/>
+    </resultMap>
+
+    <!--
+        useGeneratedKeys：对于支持自动生成记录主键的数据库，如：MySQL，SQL Server，此时设置useGeneratedKeys参数值为true，
+        在执行添加记录之后可以获取到数据库自动生成的主键ID；
+        keyProperty：配合useGeneratedKeys=“true”来使用，将自动成的逐渐封装到JavaBean的id中
+    -->
+    <!--插入一条数据-->
+    <insert id="insert" keyProperty="id" parameterType="Employee" useGeneratedKeys="true">
+        INSERT INTO employee(name,password,email,age,admin,dept_id) values (#{name},#{password},#{email},#{age},#{admin},#{deptId})
+    </insert>
+
+    <!--根据id更新数据-->
+    <update id="update" parameterType="Employee">
+        UPDATE employee SET name=#{name}, password=#{password}, email=#{email}, age=#{age}, admin=#{admin}, dept_id=#{deptId}
+        where id=#{id}
+    </update>
+
+    <!--根据id删除数据-->
+    <delete id="delete">
+        DELETE FROM employee WHERE id=#{id}
+    </delete>
+
+    <!--查询所有数据-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM employee
+    </select>
+
+    <!--根据id查询数据-->
+    <select id="selectById" resultType="Employee">
+      SELECT * FROM employee WHERE id=#{id}
+    </select>
+
+</mapper>
